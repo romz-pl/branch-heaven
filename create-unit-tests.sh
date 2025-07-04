@@ -1,27 +1,13 @@
 #!/bin/bash
 
-set -eE
+# set -eE
 
 main_branch=main
 
 
 get_prompt() {
-    if [ $# -ne 1 ]; then
-        echo "Error: Function requires exactly 1 argument, got $#" >&2
-        git checkout ${main_branch}
-        return 1
-    fi
-
     local path="$1"
-
-    if [ ! -f "${path}" ]; then
-        echo "Error: Required file '$path' not found" >&2
-        git checkout ${main_branch}
-        return 1
-    fi
-
     echo "Generate unit test for file ${path}"
-    return 0
 }
 
 get_branch() {
@@ -31,10 +17,15 @@ get_branch() {
 
 run_claude_code() {
     local path="$1"
+    
+    if [ ! -f "${path}" ]; then
+        echo "Error: Required file '$path' not found" >&2
+        git checkout ${main_branch}
+        return 1
+    fi
+    
     local branch=$(get_branch)
-    local prompt
-
-    prompt=$(get_prompt "$path")
+    local prompt=$(get_prompt "$path")
 
     git checkout ${main_branch}
     git pull
@@ -44,13 +35,36 @@ run_claude_code() {
     sleep 5s
 
     git add .
-    git commit -m "Add unit test for file $path"
+    git commit -m "Add unit test for file ${path}"
     git push
 }
-git config push.autoSetupRemote true
+
+main() {
+    git config push.autoSetupRemote true
+
+    # Read each line and echo it
+    while IFS= read -r line; do
+        run_claude_code "$line"
+    done < "$filename"
+
+    git checkout $main_branch
+}
 
 
-run_claude_code "path/to/file-1.java"
-run_claude_code "path/to/file-2.java"
+# Check if filename argument is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
 
-git checkout ${main_branch}
+filename="$1"
+
+# Check if file exists
+if [ ! -f "$filename" ]; then
+    echo "Error: File '$filename' not found"
+    exit 1
+fi
+
+main "$filename"
+
+
