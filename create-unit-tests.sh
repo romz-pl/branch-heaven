@@ -11,7 +11,7 @@ get_prompt() {
     if [ $# -ne 1 ]; then
         echo "Error: Function requires exactly 1 argument, got $#" >&2
         git checkout ${main_branch}
-        exit 2
+        return 1
     fi
 
     local path="$1"
@@ -19,7 +19,7 @@ get_prompt() {
     if [ ! -f "${path}" ]; then
         echo "Error: Required file '$path' not found" >&2
         git checkout ${main_branch}
-        exit 1
+        return 1
     fi
 
     echo "Generate unit test for file ${path}"
