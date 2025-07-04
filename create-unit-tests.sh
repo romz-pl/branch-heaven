@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -e          # Exit on error
+set -u          # Exit on undefined variables
+set -o pipefail # Exit on pipe failures
+
 main_branch=main
 
 
@@ -7,7 +11,7 @@ get_prompt() {
     if [ $# -ne 1 ]; then
         echo "Error: Function requires exactly 1 argument, got $#" >&2
         git checkout ${main_branch}
-        exit 1
+        exit 2
     fi
 
     local path="$1"
