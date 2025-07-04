@@ -50,7 +50,7 @@ run_claude_code() {
 git config push.autoSetupRemote true
 
 
-run_claude_code "path/to/file-1.java"
-run_claude_code "path/to/file-2.java"
+run_claude_code "file-1.java"
+run_claude_code "file-2.java"
 
 git checkout ${main_branch}
