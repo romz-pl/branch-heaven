@@ -52,7 +52,7 @@ main() {
 
 
 # Check if filename argument is provided
-if [ $# -eq 0 ]; then
+if [ ! $# -eq 1 ]; then
     echo "Usage: $0 <filename>"
     exit 1
 fi
