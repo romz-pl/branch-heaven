@@ -18,12 +18,6 @@ get_branch() {
 run_claude_code() {
     local path="$1"
     
-    if [ ! -f "${path}" ]; then
-        echo "Error: Required file '$path' not found" >&2
-        git checkout ${main_branch}
-        return 1
-    fi
-    
     local branch=$(get_branch)
     local prompt=$(get_prompt "$path")
 
@@ -43,8 +37,12 @@ main() {
     git config push.autoSetupRemote true
 
     # Read each line and echo it
-    while IFS= read -r line; do
-        run_claude_code "$line"
+    while IFS= read -r path; do
+        if [ -f "${path}" ]; then
+            run_claude_code "$path"
+        else
+            echo "Error: File not found: '$path'" >&2
+        fi
     done < "$filename"
 
     git checkout $main_branch

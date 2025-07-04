@@ -1,2 +1,7 @@
 test/file-1.java
 test/file-1.java
+abc.txt
+eva.txt
+test/file-1.java
+ala.txt
+test/file-2.java
