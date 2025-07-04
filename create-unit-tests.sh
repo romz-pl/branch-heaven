@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Turn on command echoing
+set -x
+
 main_branch=main
 
 
