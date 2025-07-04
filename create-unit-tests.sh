@@ -8,7 +8,7 @@ get_prompt() {
 
 get_branch() {
     local path="$1"
-    echo "cl-$(uuidgen)"
+    echo "claude-$(uuidgen)"
 }
 
 
@@ -23,7 +23,7 @@ run_claude_code() {
     git pull
     git checkout -b $branch
 
-    echo $path > log.txt
+    echo $path > log-$(uuidgen).txt
     sleep 5s
 
     git add .
