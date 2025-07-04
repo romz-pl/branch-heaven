@@ -1,14 +1,12 @@
 #!/bin/bash
 
-# Turn on command echoing
-set -x
-
 main_branch=main
 
 
 get_prompt() {
     if [ $# -ne 1 ]; then
         echo "Error: Function requires exactly 1 argument, got $#" >&2
+        git checkout ${main_branch}
         exit 1
     fi
 
@@ -16,6 +14,7 @@ get_prompt() {
 
     if [ ! -f "${path}" ]; then
         echo "Error: Required file '$path' not found" >&2
+        git checkout ${main_branch}
         exit 1
     fi
 
