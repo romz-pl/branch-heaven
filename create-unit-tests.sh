@@ -8,7 +8,7 @@ get_prompt() {
 
 get_branch() {
     local path="$1"
-    echo "cl-T$(uuidgen)"
+    echo "cl-$(uuidgen)"
 }
 
 
@@ -30,6 +30,7 @@ run_claude_code() {
     git commit -m "Add unit test for file $path"
     git push
 }
+git config push.autoSetupRemote true
 
 run_claude_code "path/to/file-1.java"
 run_claude_code "path/to/file-2.java"
