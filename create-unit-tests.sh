@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# set -eE
 
 main_branch=main
 
@@ -38,11 +37,14 @@ main() {
 
     # Read each line and echo it
     while IFS= read -r path; do
+        echo "----------------------------------------"
         if [ -f "$path" ]; then
             run_claude_code "$path"
         else
             echo "Error: File not found: '$path'" >&2
         fi
+        echo
+        echo 
     done < "$filename"
 
     git checkout $main_branch
