@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -e          # Exit on error
-set -u          # Exit on undefined variables
-set -o pipefail # Exit on pipe failures
+set -euo pipefail
 
 main_branch=main
 
