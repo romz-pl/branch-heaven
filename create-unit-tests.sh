@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -eE
 
 main_branch=main
 
@@ -21,6 +21,7 @@ get_prompt() {
     fi
 
     echo "Generate unit test for file ${path}"
+    return 0
 }
 
 get_branch() {
@@ -31,7 +32,9 @@ get_branch() {
 run_claude_code() {
     local path="$1"
     local branch=$(get_branch)
-    local prompt=$(get_prompt $path) || exit $?
+    local prompt
+
+    prompt=$(get_prompt "$path")
 
     git checkout ${main_branch}
     git pull
