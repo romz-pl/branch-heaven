@@ -7,7 +7,7 @@ main_branch=main
 
 get_prompt() {
     local path="$1"
-    echo "Generate unit test for file ${path}"
+    echo "Generate unit test for file [$path]"
 }
 
 get_branch() {
@@ -21,15 +21,15 @@ run_claude_code() {
     local branch=$(get_branch)
     local prompt=$(get_prompt "$path")
 
-    git checkout ${main_branch}
+    git checkout $main_branch
     git pull
-    git checkout -b ${branch}
+    git checkout -b $branch
 
-    echo ${path} > log-$(uuidgen).txt
+    echo $prompt > log-$(uuidgen).txt
     sleep 5s
 
     git add .
-    git commit -m "Add unit test for file ${path}"
+    git commit -m "Add unit test for file [$path]"
     git push
 }
 
@@ -38,7 +38,7 @@ main() {
 
     # Read each line and echo it
     while IFS= read -r path; do
-        if [ -f "${path}" ]; then
+        if [ -f "$path" ]; then
             run_claude_code "$path"
         else
             echo "Error: File not found: '$path'" >&2
